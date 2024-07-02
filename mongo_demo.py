@@ -4,10 +4,15 @@ import json
 from datetime import datetime, timedelta
 import pytz
 import time
+import os
+from dotenv import load_dotenv
 
-client = MongoClient('mongodb+srv://waynehu:2gy1k9jPasUqRqsz@cluster0.r9ljfbf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
-db = client['mongo_demo']  
-collection = db['events']  
+load_dotenv()
+mongodb_uri = os.getenv('MONGODB_URI')
+
+client = MongoClient(mongodb_uri)
+db = client.get_database() 
+collection = db.get_collection('events')
 
 def fetch_data_and_store():
     url = 'https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=1'
