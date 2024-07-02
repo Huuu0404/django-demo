@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 from .models import Event
-from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from myapp.models import Event, ShowInfo, Location
 from django.views.decorators.csrf import csrf_exempt
@@ -16,15 +15,13 @@ def home(request):
     try:
         events = paginator.page(page_number)
     except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
         events = paginator.page(1)
     except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
         events = paginator.page(paginator.num_pages)
 
     context = {
         'events': events,
-        'user': request.user,  # Assuming you want to pass the user to the template
+        'user': request.user, 
     }
     return render(request, 'home.html', context)
 

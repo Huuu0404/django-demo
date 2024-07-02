@@ -3,7 +3,7 @@ import os
 import django
 from datetime import datetime
 
-# 設置Django環境
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'roar.settings')
 django.setup()
 
