@@ -1,0 +1,192 @@
+{% block title %}
+HomePage
+{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+  <div class="welcome-message">
+    Hello, {{ user.username }}!
+  </div>
+{% else %}
+  <div class="welcome-message">
+    <p>You are not logged in</p>
+    <a href="{% url 'login' %}">Login Page</a>
+  </div>
+{% endif %}
+  <div class="search-form">
+    <form method="get" action="/operation/">
+      <input type="text" name="search" placeholder="Search by title">
+      <button type="submit">Search</button>
+    </form>
+  </div>
+
+  <div class="event-table-container">
+    <table class="event-table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Category</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for event in events %}
+        <tr>
+          <td>{{ event.title }}</td>
+          <td>{{ event.category }}</td>
+          <td>{{ event.startDate }}</td>
+          <td>{{ event.endDate }}</td>
+          <td>
+            <form method="post" action="/operation/">
+              <button type="button" onclick="detailEvent({{ event.id }})">Detail</button>
+            </form>
+            <form>
+              <button type="button" onclick="editEvent({{ event.id }})">Edit</button>
+            </form>
+            <form method="post" action="/operation/">
+              {% csrf_token %}
+              <input type="hidden" name="id" value="{{ event.id }}">
+              <button type="submit" name="action" value="delete">Delete</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  {% if events.has_other_pages %}
+    <div class="pagination">
+      <span class="step-links">
+        {% if events.has_previous %}
+          <a href="?page=1">&laquo; First</a>
+          <a href="?page={{ events.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        <span class="current">
+          Page {{ events.number }} of {{ events.paginator.num_pages }}.
+        </span>
+
+        {% if events.has_next %}
+          <a href="?page={{ events.next_page_number }}">Next</a>
+          <a href="?page={{ events.paginator.num_pages }}">Last &raquo;</a>
+        {% endif %}
+      </span>
+    </div>
+  {% endif %}
+
+  <div class="logout-button">
+    <form method="post" action="{% url 'logout' %}">
+      {% csrf_token %}
+      <button type="submit">Logout</button>
+    </form>
+  </div>
+
+
+{% endblock %}
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    padding: 20px;
+    text-align: center; /* 页面内容居中 */
+  }
+
+  .welcome-message {
+    margin-bottom: 20px;
+    font-size: 18px;
+  }
+
+  .search-form {
+    margin-bottom: 20px;
+  }
+
+  .event-table-container {
+    display: inline-block; /* 使用 inline-block 让表格居中 */
+    text-align: left; /* 表格内容左对齐 */
+  }
+
+  .event-table {
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .event-table th, .event-table td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+  }
+
+  .event-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+
+  .event-table td form {
+    display: inline-block;
+    margin-right: 5px;
+  }
+
+  .event-table td form button {
+    padding: 5px 10px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 3px;
+  }
+
+  .event-table td form button:hover {
+    background-color: #45a049;
+  }
+
+  .pagination {
+    margin-top: 20px;
+  }
+
+  .pagination a {
+    padding: 5px 10px;
+    text-decoration: none;
+    color: #333;
+    border: 1px solid #ddd;
+    margin-right: 5px;
+  }
+
+  .pagination a:hover {
+    background-color: #f2f2f2;
+  }
+
+  .logout-button {
+    margin-top: 20px;
+  }
+
+  .logout-button button {
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 3px;
+  }
+
+  .logout-button button:hover {
+    background-color: #d32f2f;
+  }
+</style>
+
+<script>
+  function editEvent(id) {
+    window.location.href = '/edit/' + id + '/';
+  }
+
+  function detailEvent(id) {
+    window.location.href = '/detail/' + id + '/';
+  }
+</script>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>操作頁面</title>
+</head>
+<body>
+    <h1>操作頁面</h1>
+
+    <ul>
+        {% for event in events %}
+            <li>
+                {{ event.title }} -
+                <a href="{% url 'event_detail' event.id %}">Detail</a> |
+                <a href="{% url 'event_edit' event.id %}">Edit</a> |
+                <a href="{% url 'event_delete' event.id %}">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <form action="/operation/" method="post">
+        {% csrf_token %}
+        <input type="text" name="title" placeholder="Event Title">
+        <button type="submit">新增事件</button>
+    </form>
+
+    <form action="/operation/" method="get">
+        <input type="text" name="search" placeholder="Search by Title">
+        <button type="submit">搜尋</button>
+    </form>
+
+    <script>
+        // AJAX 修改事件
+        function editEvent(eventId, newTitle) {
+            fetch('/operation/', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({ id: eventId, title: newTitle })
+            })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('修改事件錯誤:', error));
+        }
+
+        // AJAX 刪除事件
+        function deleteEvent(eventId) {
+            fetch('/operation/', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({ id: eventId })
+            })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('刪除事件錯誤:', error));
+        }
+    </script>
+</body>
+</html>

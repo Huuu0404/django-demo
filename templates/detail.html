@@ -1,0 +1,78 @@
+{% block title %}
+Event Detail
+{% endblock %}
+
+{% block content %}
+<style>
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px; /* 添加表格与其他内容的间距 */
+  }
+
+  table, th, td {
+    border: 1px solid black; /* 添加表格边框 */
+    padding: 10px; /* 添加单元格内边距 */
+  }
+
+  th {
+    background-color: #f2f2f2; /* 添加表头背景色 */
+    text-align: left;
+  }
+</style>
+
+<table>
+  <tr>
+    <th>Title:</th>
+    <td>{{ event.title }}</td>
+  </tr>
+  <tr>
+    <th>Category:</th>
+    <td>{{ event.category }}</td>
+  </tr>
+  <tr>
+    <th>Start Date:</th>
+    <td>{{ event.startDate }}</td>
+  </tr>
+  <tr>
+    <th>End Date:</th>
+    <td>{{ event.endDate }}</td>
+  </tr>
+</table>
+
+{% if show_infos %}
+  <h3>Show Info:</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Time</th>
+        <th>Location Name</th>
+        <th>Address</th>
+        <th>Coordinates</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for show_info in show_infos %}
+      <tr>
+        <td>{{ show_info.time }}</td>
+        {% with show_info.location as location %}
+          {% if location %}
+            <td>{{ location.locationName }}</td>
+            <td>{{ location.address }}</td>
+            <td>
+              {% if location.latitude and location.longitude %}
+                ({{ location.latitude }}, {{ location.longitude }})
+              {% endif %}
+            </td>
+          {% endif %}
+        {% endwith %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p>No show information available.</p>
+{% endif %}
+
+<a href="{% url 'home' %}">Back to Home</a>
+{% endblock %}
