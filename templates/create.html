@@ -1,0 +1,64 @@
+{% block content %}
+<div class="create-event-container">
+    <h2>Create New Event</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ event_form.as_p }}
+        {{ show_info_form.as_p }}
+        {{ location_form.as_p }}
+        <div class="button-group">
+            <button type="submit" class="save-button">Create</button>
+            <a href="{% url 'home' %}" class="cancel-button">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+<style>
+  .create-event-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .button-group {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .save-button, .cancel-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  .save-button {
+    background-color: #0095f6;
+    color: #fff;
+  }
+
+  .save-button:hover {
+    background-color: #007bb5;
+  }
+
+  .cancel-button {
+    background-color: #f44336;
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+  }
+
+  .cancel-button:hover {
+    background-color: #d32f2f;
+  }
+</style>
