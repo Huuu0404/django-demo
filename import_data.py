@@ -10,7 +10,7 @@ django.setup()
 from myapp.models import Event, EventUnit, Location, ShowInfo
 
 # 讀取JSON檔案
-with open('/home/user/Downloads/SearchShowAction.json', 'r', encoding='utf-8') as file:
+with open('SearchShowAction.do.json', 'r', encoding='utf-8') as file:
     data = json.load(file)
 
 # 插入資料到資料庫

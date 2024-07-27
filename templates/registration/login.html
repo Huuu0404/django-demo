@@ -1,19 +1,77 @@
-{% block title %}
-Login
-{% endblock title %}
+
+
 {% block content %}
-<form method="post" action="{% url 'login' %}">
-{% csrf_token %}
-<table>
-  <tr>
-    <td>{{ form.username.label_tag }}</td>
-    <td>{{ form.username }}</td>
-  </tr>
-  <tr>
-    <td>{{ form.password.label_tag }}</td>
-    <td>{{ form.password }}</td>
-  </tr>
-</table>
-<input type="submit" value="login">
-</form>
+<div class="login-container">
+  <form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="id_username">{{ form.username.label }}</label>
+      {{ form.username }}
+    </div>
+    <div class="form-group">
+      <label for="id_password">{{ form.password.label }}</label>
+      {{ form.password }}
+    </div>
+    <button type="submit" class="login-button">Login</button>
+  </form>
+</div>
 {% endblock content %}
+
+<style>
+  body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: #fafafa;
+    color: #262626;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .login-container {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+    text-align: left;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #8e8e8e;
+  }
+
+  .form-group input[type="text"],
+  .form-group input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #dbdbdb;
+    border-radius: 4px;
+    background-color: #fafafa;
+    font-size: 14px;
+  }
+
+  .login-button {
+    padding: 10px 20px;
+    width: 100%;
+    cursor: pointer;
+    background-color: #0095f6;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+
+  .login-button:hover {
+    background-color: #007bb5;
+  }
+</style>
