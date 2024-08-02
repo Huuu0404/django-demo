@@ -1,7 +1,7 @@
 # Django-demo
 Django
-爬取政府資料開放平臺的後台介面
-尚未登入的話只能查看列表，登入後才能使用查看細節,編輯及刪除的功能
+爬取政府資料開放平臺的後台介面，
+尚未登入的話只能查看列表，登入後才能使用查看詳細資料,編輯,刪除的功能
 
 <img width="1439" alt="截圖 2024-08-02 下午9 42 33" src="https://github.com/user-attachments/assets/4fe6aefa-a1c9-4808-83dc-e0e8effaaa89">
 <img width="1440" alt="截圖 2024-08-02 下午9 42 42" src="https://github.com/user-attachments/assets/e8e66cca-848b-4a90-ae96-73f1326ddad4">
